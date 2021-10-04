@@ -1,7 +1,12 @@
 # Several computer players do a random walk on the led grid
 # colouring where they go until the are stuck
 # Can you make the players more intelligent?
+import random
+import time
 
+def random_colour():
+    return hsv_colour(random.uniform(-1.0,1.0),1,1) 
+    
 def adjacent_positions(x, y, include_diagonal=False):
 	positions = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
 	if include_diagonal:
