@@ -1,4 +1,6 @@
 # Run Conways Game of Life with a randomised start
+import random
+import time
 
 def update_leds(cells, colour):
 	leds = {}
@@ -7,6 +9,9 @@ def update_leds(cells, colour):
 			if x < 8 or y < 8:
 				leds[x,y] = colour if (x,y) in cells else black
 	display.set_leds(leds)
+
+def random_colour():
+    return hsv_colour(random.uniform(-1.0,1.0),1,1)    
 	
 def random_setup(starting_live_ratio):
 	cells = []
