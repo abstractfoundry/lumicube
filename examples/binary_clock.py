@@ -38,6 +38,7 @@ def draw_binary_clock(hours, minutes, seconds):
 display.set_all(black)
 while True:
     import datetime
+    import time
     time_now = datetime.datetime.now()
     seconds = int(time_now.strftime("%S"))
     minutes = int(time_now.strftime("%M"))
