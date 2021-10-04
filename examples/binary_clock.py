@@ -1,6 +1,8 @@
 # Display a binary clock
 # https://en.wikipedia.org/wiki/Binary_clock
-
+import datetime
+import time
+    
 def draw_binary_clock(hours, minutes, seconds):
     def draw_binary_value(value, x, colour, leds):
         # Split the time value into two separate digits
@@ -37,7 +39,6 @@ def draw_binary_clock(hours, minutes, seconds):
 
 display.set_all(black)
 while True:
-    import datetime
     time_now = datetime.datetime.now()
     seconds = int(time_now.strftime("%S"))
     minutes = int(time_now.strftime("%M"))
