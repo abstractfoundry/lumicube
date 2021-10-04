@@ -1,4 +1,6 @@
 # Autumn animation
+import random
+import time
 
 # Set the leds to Tree image with a moon
 y = 0xffc000
