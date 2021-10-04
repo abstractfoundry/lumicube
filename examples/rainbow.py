@@ -1,4 +1,5 @@
 # Continually change the cube's colour
+import time
 
 hue = 0
 while True:
