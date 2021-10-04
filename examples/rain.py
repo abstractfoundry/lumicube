@@ -1,4 +1,6 @@
 # Rain animation
+import random
+import time
 
 display.set_all(black)
 
