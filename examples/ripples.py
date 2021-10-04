@@ -1,4 +1,7 @@
 # Show ripples across the cube's LEDs
+import random
+import time
+import math
 
 class Ripple:
     def __init__(self, start_x, start_y, start_z, hsv, velocity=10, wavefront_size=1.3):
@@ -74,6 +77,6 @@ while True:
     for r in to_remove:
         ripples.remove(r)
     
-    display.set_3d(leds, True)
+    display.set_3d(leds)
     time.sleep(1/20)
     count += 1
