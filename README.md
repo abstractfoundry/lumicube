@@ -90,16 +90,22 @@ Almost all of the modules, methods, and fields in the python API (see the manual
 
 Example, set the brightness to 50%:
 
-`[POST] http://127.0.0.1/api/v1/modules/display/fields/brightness  { 50 }`
+```
+[POST] http://127.0.0.1/api/v1/modules/display/fields/brightness  { 50 }
+```
 
 
 #### Call a method
 
-`[POST] http://<IPADDRESS>/api/v1/modules/<MODULE_NAME>/methods/<METHOD_NAME> { "arguments": <ARGUMENTS_LIST> }`
+```
+[POST] http://<IPADDRESS>/api/v1/modules/<MODULE_NAME>/methods/<METHOD_NAME> { "arguments": <ARGUMENTS_LIST> }
+```
 
 Example, set one led at x=1, y=0, colour=255 (which is 0xFF - blue):
 
-`[POST] http://127.0.0.1/api/v1/modules/display/methods/set_led { "arguments": [1, 0, 255] }`
+```
+[POST] http://127.0.0.1/api/v1/modules/display/methods/set_led { "arguments": [1, 0, 255] }
+```
 
 
 #### Exceptional cases
@@ -111,4 +117,6 @@ JSON doesn't support tuples so instead coordinates are represented as a comma se
 
 Example, set (0,0) to 0x80, and (1,1) to 0xFF:
 
-`[POST] http://127.0.0.1/api/v1/modules/display/methods/set_leds { "arguments": [{ "0,0": 128, "1,1": 255 }] }`
+```
+[POST] http://127.0.0.1/api/v1/modules/display/methods/set_leds { "arguments": [{ "0,0": 128, "1,1": 255 }] }
+```
