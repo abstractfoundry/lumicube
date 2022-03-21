@@ -69,4 +69,46 @@ Blow at the back of the cube to make the windmill animation turn
 
 ### API
 
-Basic outline of the LumiCube API.
+See the LumiCube manual for an explanation of the modules, methods and fields:
+https://abstractfoundry.com/lumicube/manual.pdf
+
+
+### REST API
+
+The API is broken down into:
+- modules (e.g. speaker, microphone, screen)
+- methods (e.g. play_tone(), draw_rectangle())
+- fields  (e.g. volume, brightness)
+
+Almost all of the modules, methods, and fields in the python API (see the manual) exist for the REST API. 
+
+#### Get/Set a field
+
+```
+[GET/POST] http://<IPADDRESS>/api/v1/modules/<MODULE_NAME>/fields/<FIELD_NAME>  {<VALUE>}
+```
+
+Example, set the brightness to 50%:
+
+`[POST] http://127.0.0.1/api/v1/modules/display/fields/brightness  { 50 }`
+
+
+#### Call a method
+
+`[POST] http://<IPADDRESS>/api/v1/modules/<MODULE_NAME>/methods/<METHOD_NAME> { "arguments": <ARGUMENTS_LIST> }`
+
+Example, set one led at x=1, y=0, colour=255 (which is 0xFF - blue):
+
+`[POST] http://127.0.0.1/api/v1/modules/display/methods/set_led { "arguments": [1, 0, 255] }`
+
+
+#### Exceptional cases
+
+`set_leds(), set_3d()`
+
+In python these methods take a dictionary mapping coordinates to colours, where the coordinates are a tuple of (x,y) or (x,y,z).
+JSON doesn't support tuples so instead coordinates are represented as a comma separated string.
+
+Example, set (0,0) to 0x80, and (1,1) to 0xFF:
+
+`[POST] http://127.0.0.1/api/v1/modules/display/methods/set_leds { "arguments": [{ "0,0": 128, "1,1": 255 }] }`
