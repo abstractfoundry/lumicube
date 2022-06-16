@@ -1,15 +1,15 @@
-# Display some pi stats on the screen
+# Write some statistics about the Pi to the the screen.
 
-# Set the screen black
+def to_text(value):
+    return str("{:.1f}".format(value))
+
 screen.draw_rectangle(0, 0, 320, 240, black)
 height = 36
 while True:
-    # Every 20 seconds write the pi stats to the screen
-    (days, hours, minutes, seconds) = pi.uptime()
-    screen.write_text(0, 0.5*height, "IP Address: " + pi.ip_address(),                                   1, white, black)
-    screen.write_text(0, 1.5*height, "CPU temp  : " + str("{:.1f}".format(pi.cpu_temp())) + "'C",        1, white, black)
-    screen.write_text(0, 2.5*height, "CPU usage : " + str("{:.1f}".format(pi.cpu_percent())) + "%",      1, white, black)
-    screen.write_text(0, 3.5*height, "RAM usage : " + str("{:.1f}".format(pi.ram_percent_used())) + "%", 1, white, black)
-    screen.write_text(0, 4.5*height, "Disk usage: " + str("{:.1f}".format(pi.disk_percent())) + "%",     1, white, black)
-    screen.write_text(0, 5.5*height, "Uptime    : " + str(days) + ":" + str(hours) + ":" + str(minutes), 1, white, black)
-    time.sleep(20)
+    text = ("IP address: " + pi.ip_address() + "\n"
+        + "CPU temp  : " + to_text(pi.cpu_temp()) + "\n"
+        + "CPU usage : " + to_text(pi.cpu_percent()) + "\n"
+        + "RAM usage : " + to_text(pi.ram_percent_used()) +"\n"
+        + "Disk usage: " + to_text(pi.disk_percent()) + "\n")
+    screen.write_text(10, 18, text, 1, white, black)
+    time.sleep(5)

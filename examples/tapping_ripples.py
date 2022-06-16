@@ -1,4 +1,6 @@
-# Create a ripple effect if you tap the cube (or accelerate it in anyway)
+# Animate ripples across the cube's LEDs, which respond
+# to tapping the cube (or accelerating it in some way).
+# Note: Requires the advanced kit IMU add-on.
 
 import threading
 
@@ -12,7 +14,7 @@ class Ripple:
         self.wavefront_size = wavefront_size
         self.start_time = time.time()
         self.radius = 0
-        
+
     def draw(self, leds):
         self.radius = self.velocity * (time.time() - self.start_time)
         for x in range(0,9):
@@ -27,16 +29,15 @@ class Ripple:
                             pos_brightness = math.cos(math.pi*dist_diff/(2*self.wavefront_size))
                             hue, sat, value = self.hsv
                             brightness = value*pos_brightness
-                            if brightness > 0.05: # Don't show low brightness
+                            if brightness > 0.05: # Set any low brightness LEDs black
                                 leds[(x,y,z)] = hsv_colour(hue, sat, brightness)
-        
+
     def finished(self):
         if (self.radius > 16):
             return True
         return False
 
-
-# Check the acceleration in a separate thread to make sure it doesn't miss anything
+# Check the acceleration in a separate thread to ensure we sample it at regular intervals
 acc_direction = None
 wait_count = 0
 def worker():
@@ -64,12 +65,11 @@ def worker():
         time.sleep(0.02)
 threading.Thread(target=worker, daemon=True).start()
 
-
-cube.set_all(black)
+display.set_all(black)
 ripples = []
 
 while True:
-    # If acceleration detected create new ripple
+    # If an acceleration is detected create new ripple
     if acc_direction != None:
         # Make it start in the middle of the accelerated face
         if acc_direction == "x":
@@ -77,24 +77,24 @@ while True:
         elif acc_direction == "y":
             x, y, z = 4, 8, 4
         else:
-            x, y, z = 4, 4, 8
+            x, y, z = 4, 4, 0
         hsv = (random.random(), 1, 1)
         ripples.append(Ripple(x, y, z, hsv))
-        # Reset the acc_direction
+        # Reset the acceleration direction
         acc_direction = None
-    
-    # Initialise leds to black
+
+    # Initialise the LEDs to black
     leds = {}
     for x in range(0,9):
         for y in range(0,9):
             for z in range(0,9):
                 if x == 8 or y == 8 or z == 8:
                     leds[(x,y,z)] = 0;
-    
-    # Set leds for ripples
+
+    # Draw all the ripples
     for r in ripples:
         r.draw(leds)
-    
+
     # Remove any ripples that have finished
     to_remove = []
     for r in ripples:
@@ -102,6 +102,6 @@ while True:
             to_remove.append(r)
     for r in to_remove:
         ripples.remove(r)
-    
-    cube.set_3d(leds, True)
+
+    display.set_3d(leds, True)
     time.sleep(1/20)

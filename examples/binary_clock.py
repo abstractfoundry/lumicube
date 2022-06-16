@@ -1,47 +1,32 @@
-# Display a binary clock
-# https://en.wikipedia.org/wiki/Binary_clock
+# Display a binary clock (https://en.wikipedia.org/wiki/Binary_clock).
 
-def draw_binary_clock(hours, minutes, seconds):
-    def draw_binary_value(value, x, colour, leds):
-        # Split the time value into two separate digits
-        digits = [int(value / 10), value % 10]
-        for digit in digits:
-            binary = list(bin(digit)[2:]) # Returns a list of 0's and 1's
-            # Start at the bottom with the least significant digit
-            # Loop through and set leds if the digit is 1
-            binary.reverse()
-            for i, value in enumerate(binary):
-                y = i *2
-                # Set all the leds in a 2x2 square
-                positions = [
-                    (x, y),
-                    (x, y+1),
-                    (x+1, y),
-                    (x+1, y+1),
-                ]
-                for pos in positions:
-                    if value == '1':
-                        leds[pos] = colour
-            # Increment x for the next digit
-            x += 2
-            
+def draw_column(decimal_digit, x, colour):
+    # Convert digit to four digit binary
+    binary = list(format(decimal_digit, '04b'))
+    # Start at the bottom with the least significant digit
+    binary.reverse()
     leds = {}
-    for y in range(0,16):
-        for x in range(0,16):
-            if x < 8 or y < 8:
-                leds[(x,y)] = black
-    draw_binary_value(hours,    0, pink,   leds)
-    draw_binary_value(minutes,  6, purple, leds)
-    draw_binary_value(seconds, 11, cyan,   leds)
+    for i, value in enumerate(binary):
+        # Set all the leds in a 2x2 square
+        pixel = colour if value == '1' else black
+        y = i * 2
+        leds[x,   y  ] = pixel
+        leds[x,   y+1] = pixel
+        leds[x+1, y  ] = pixel
+        leds[x+1, y+1] = pixel
     display.set_leds(leds)
 
+import datetime
 display.set_all(black)
 while True:
-    import datetime
     time_now = datetime.datetime.now()
-    seconds = int(time_now.strftime("%S"))
-    minutes = int(time_now.strftime("%M"))
-    hours   = int(time_now.strftime("%H"))
-    draw_binary_clock(hours, minutes, seconds)
+    seconds = format(time_now.second, '02')
+    minutes = format(time_now.minute, '02')
+    hours   = format(time_now.hour,   '02')
+    draw_column(int(hours[0]),    0, pink)
+    draw_column(int(hours[1]),    2, pink)
+    draw_column(int(minutes[0]),  4, purple)
+    draw_column(int(minutes[1]),  6, purple)
+    draw_column(int(seconds[0]),  8, cyan)
+    draw_column(int(seconds[1]), 10, cyan)
     time.sleep(1/10)
-

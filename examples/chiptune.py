@@ -1,5 +1,4 @@
-# Play a randomly generated tune
-# speaker.tone(frequency, duration, amplitude)
+# Play a randomly generated tune.
 
 while True:
     # Play a rising piece
@@ -10,7 +9,7 @@ while True:
     speaker.tone(500, 0.1, 0.1, function=white_noise)
     time.sleep(0.05)
     speaker.tone(500, 0.1, 0.1, function=white_noise)
-    # Play 3 different tones 
+    # Play 3 different tones
     speaker.tone(500 + 500 * random.random(), 0.1)
     speaker.tone(500 + 500 * random.random(), 0.1)
     speaker.tone(500 + 500 * random.random(), 0.1)

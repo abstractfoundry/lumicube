@@ -1,76 +1,53 @@
-# Run Conways Game of Life with a randomised start
+# Run Conway's Game of Life (https://en.wikipedia.org/wiki/Conway's_Game_of_Life).
 
-def update_leds(cells, colour):
-	leds = {}
-	for x in range(0,16):
-		for y in range(0,16):
-			if x < 8 or y < 8:
-				leds[x,y] = colour if (x,y) in cells else black
-	display.set_leds(leds)
-	
-def random_setup(starting_live_ratio):
-	cells = []
-	for x in range(0,16):
-		for y in range(0,16):
-			if x < 8 or y < 8:
-				if random.random() < starting_live_ratio:
-					cells.append((x,y))
-	return cells
+import random
+max_turns = 50
+starting_live_ratio = 0.4
+colour = random_colour()
+num_turns = 0
+alive_cells = []
+for x in range(0,16):
+    for y in range(0,16):
+        if x < 8 or y < 8:
+            if random.random() < starting_live_ratio:
+                alive_cells.append((x,y))
 
-def adjacent_positions(x, y, include_diagonal=False):
-	positions = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
-	if include_diagonal:
-		positions = positions + [(x-1, y-1), (x-1, y+1), (x+1, y-1), (x+1, y+1)]
-	mapped_positions = []
-	for (x,y) in positions:
-		if (x < 16 and x >= 0) and (y < 16 and y >= 0):
-			# Account for 3D nature of panels
-			if x > 7 and y > 7:
-				if x > 7 and y == 8:
-					mapped_positions.append((7, x))
-				elif x == 8 and y > 7:
-					mapped_positions.append((y, 7))
-			# Make sure x and y are valid positions
-			else:
-				mapped_positions.append((x,y))
-	return mapped_positions
+def num_alive_neighbours(x, y):
+    num_neighbours = 0
+    for x2 in [x-1, x, x+1]:
+        for y2 in [y-1, y, y+1]:
+            if (x2, y2) != (x, y):
+                neighbour = (x2, y2)
+                # Account for 3D nature of panels
+                if x2 == 8 and y2 >= 8:
+                    neighbour = (y2, 7)
+                elif y2 == 8 and x2 >= 8:
+                    neighbour = (7, x2)
+                if neighbour in alive_cells:
+                    num_neighbours += 1
+    return num_neighbours
 
-def num_neighbours(x, y, cells):
-	return len(set(cells).intersection(adjacent_positions(x, y, include_diagonal=True)))
-
-def run_game_of_life(cells, colour, period, max_iterations):
-	update_leds(cells, colour)
-	iterations = 0
-	while 1:
-		next_cells = cells.copy()
-		for x in range(0,16):
-			for y in range(0,16):
-				if x < 8 or y < 8:
-					neighbours = num_neighbours(x, y, cells)
-					pos = (x,y)
-					# If alive
-					if pos in cells:
-						if neighbours < 2 or neighbours > 3:
-							# Dies
-							next_cells.remove(pos)
-					else:
-						if neighbours == 3:
-							# New life
-							next_cells.append(pos)
-		update_leds(next_cells, colour)
-		# End if nothing is changing or after enough iterations
-		if set(next_cells) == set(cells) or iterations > max_iterations:
-			break
-		cells = next_cells
-		time.sleep(period)
-		iterations+=1
-
-
-while 1:
-	# cells = [(2,4), (3,4), (4,4), (5,4), (6,4),
-	# 		(2+6,4), (3+6,4), (4+6,4), (5+6,4), (6+6,4),
-	# 		(2,10), (3,10), (4,10), (5,10), (6,10), ]
-	cells = random_setup(0.4)
-	run_game_of_life(cells, random_colour(), 0.3, 50)
-	# Sleep before next simulation
-	time.sleep(3)
+while (num_turns < max_turns):
+    next_cells = []
+    leds = {}
+    for x in range(0,16):
+        for y in range(0,16):
+            if x < 8 or y < 8:
+                alive = (x, y) in alive_cells
+                neighbours = num_alive_neighbours(x, y)
+                # Remains alive
+                if alive and (neighbours == 2
+                        or neighbours == 3):
+                    next_cells.append((x, y))
+                    leds[x, y] = colour
+                # Becomes alive
+                elif not alive and neighbours == 3:
+                    next_cells.append((x, y))
+                    leds[x, y] = colour
+                # Else dead
+                else:
+                    leds[x, y] = black
+    alive_cells = next_cells
+    display.set_leds(leds)
+    time.sleep(0.3)
+    num_turns += 1

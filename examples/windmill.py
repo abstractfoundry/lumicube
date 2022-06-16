@@ -1,5 +1,4 @@
-# Blow at the back of the cube to make the windmill animation turn
-# It turns when it detects a rise in the humidity
+# Blow on the back of the cube to make the windmill animation turn.
 
 import threading
 
@@ -43,8 +42,8 @@ while True:
         for y in range(9):
             for z in range(9):
                 if x == 8 or y == 8 or z == 8:
-                    projected_x = (z + x - 8)
-                    projected_y = (z + 2 * y - x - 8) / (3 ** 0.5)
+                    projected_x = (x - z)
+                    projected_y = (2 * y - x - z) / (3 ** 0.5)
                     canvas[(x,y,z)] = windmill_shader(projected_x, projected_y, blade_angle)
     display.set_3d(canvas, True)
     accumulator *= (1 - decay)
