@@ -1,74 +1,90 @@
-==================================
-Predefined variables and functions
-==================================
+===================================
+Pre-defined variables and functions
+===================================
 
-black = 0
-grey = 0x808080
-white = 0xFFFFFF
-red = 0xFF0000
-orange = 0xFF8C00
-yellow = 0xFFFF00
-green = 0x00FF00
-cyan = 0x00FFFF
-blue = 0x0000FF
+black   = 0x000000
+grey    = 0x808080
+white   = 0xFFFFFF
+red     = 0xFF0000
+orange  = 0xFF8C00
+yellow  = 0xFFFF00
+green   = 0x00FF00
+cyan    = 0x00FFFF
+blue    = 0x0000FF
 magenta = 0xFF00FF
-pink = 0xFF007F
-purple = 0x800080
+pink    = 0xFF007F
+purple  = 0x800080
 
-hsv_colour(hue, sat, val)
+hsv_colour(hue, saturation, value)
 random_colour()
+noise_2d(x, y)
+noise_3d(x, y, z)
+noise_4d(x, y, z, w)
+run_async(task, *args, **kwargs)
+LumiCube(ip_address)
+
+
+========================
+Default imported modules
+========================
+
+import time
+import math
+import random
 
 
 ===========
-Led display
+LED display
 ===========
 
-display.brightness
+display.brightness  # 0 - 100
+
 display.set_all(colour)
 display.set_led(x, y, colour)
-display.set_leds(x_y_to_colour_dict) # x_y_to_colour_dict = {(x,y) : colour}
+display.set_leds(x_y_to_colour_dict)  # { (x1, y1): colour1, (x2, y2): colour2, ... }
+display.set_panel(panel, 2d_colour_list)  # 2d_colour_list is a list of 8 lists, each containing 8 colours
+display.scroll_text(text, colour=white, background_colour=black, speed=1)
+display.set_3d(x_y_z_to_colour_dict)  # { (x1, y1, z1): colour1, (x2, y2, z2): colour2, ... }
 
-display.set_3d(x_y_z_to_colour_dict) # x_y_z_to_colour_dict = {(x,y,z) : colour}
-# Set the LEDs using 3D coordinates. The origin for the coordinates is the back rear corner of the cube.
-              y
-              |
-              |
-              |
-              |________x
-              /
-             /
-            /
-            z
-# The left panel is described by:  x, y when z = 8
-# The right panel is described by: z, y when x = 8
-# The top panel is described by:   x, z when y = 8
-# Coordinates outside this range will be ignored.
+3D coordinate system (looking at the 3 LED panels, the origin is at the back corner of the cube):
 
-display.set_panel(panel, colour_array)
-# Set all the leds on one panel.
-# Takes an 8 by 8 list of lists.
-# The first list is the top row of leds.
-# The first colour in that list is the top left led.
+             y
+             |
+             |
+          _-` `-_
+     z _-`       `-_ x
 
-display.scroll_text(text, colour=0xFFFFFF, background_colour=0x0, speed=1, with_gap=True)
+- The left panel is described by:  x, y when z = 8
+- The right panel is described by: y, z when x = 8
+- The top panel is described by:   x, z when y = 8
+- Coordinates outside this range will be ignored
 
 
 ==========
 Microphone
 ==========
 
-microphone.start_listening() # Returns a audio capture object which is just a queue.
-microphone.start_recording_for_frequency_analysis(sample_rate=8000) # Returns an audio capture object.
-microphone.get_frequency_buckets(capture, num_buckets=8, min_hz=0, max_hz=4000, sample_rate=8000)
+microphone.enable  # 0 or 1
+
+microphone.start_recording(file)
+microphone.stop_recording()
+microphone.start_voice_recognition()
+microphone.wait_for_sentence(timeout) # Returns the sentence spoken as a string
+microphone.stop_voice_recognition()
+microphone.start_recording_for_frequency_analysis()
+microphone.get_frequency_buckets(num_buckets=8, min_hz=0, max_hz=4000)
 
 
 =======
 Speaker
 =======
 
-speaker.say(text)
+speaker.volume  # 0 - 200
+
 speaker.play(path)
-speaker.tone(frequency=261.626, duration=0.5, amplitude=0.25, function=sine_wave, ramp=0.0035, trailing_samples=512)
+speaker.stop()
+speaker.say(text)
+speaker.tone(frequency=261.626, duration=0.5, amplitude=0.25, function=sine_wave)
 
 
 ======
@@ -76,10 +92,10 @@ Screen
 ======
 
 screen.set_pixel(x, y, colour)
-screen.set_pixels(x, y, pixels)
+screen.set_pixels(x, y, width, height, pixels)
 screen.draw_rectangle(x, y, width, height, colour)
-screen.write_text(x, y, text, size, colour, background_colour=None)
-screen.draw_image(x, y, path)
+screen.write_text(x, y, text, size, colour, background_colour)
+screen.draw_image(path, x, y, width, height)
 
 
 =======
@@ -93,21 +109,28 @@ buttons.top_pressed_count
 buttons.middle_pressed_count
 buttons.bottom_pressed_count
 
+buttons.get_next_action(timeout)  # Returns either 'top', 'middle', or 'bottom'
+
 
 ============
 Light sensor
 ============
 
+buttons.get_next_gesture(timeout)  # Returns either 'up', 'down', 'left' or 'right'
+
 light_sensor.ambient_light
+light_sensor.red
+light_sensor.green
+light_sensor.blue
 light_sensor.last_gesture
 light_sensor.num_gestures
 light_sensor.within_proximity
 light_sensor.num_times_within_proximity
 
 
-===
-IMU
-===
+========================
+Orientation sensor (IMU)
+========================
 
 imu.pitch
 imu.roll
@@ -132,23 +155,22 @@ env_sensor.pressure
 env_sensor.humidity
 
 
-==
-Pi
-==
+============
+Raspberry Pi
+============
 
 pi.ip_address()
 pi.cpu_temp()
 pi.cpu_percent()
 pi.ram_percent_used()
 pi.disk_percent()
-pi.uptime()
 
 
 ========================
 Using multiple LumiCubes
 ========================
 
-Technically all of these objects are on an object called cube, so:
+Technically the objects above are also available on an object called "cube", so:
 
 display.set_led(0, 0, red)
 
@@ -156,8 +178,10 @@ is the same as:
 
 cube.display.set_led(0, 0, red)
 
-If you want to talk to another LumiCube create a new cube object with the IP address of the new LumiCube.
-You can then access everything in the same way. Although note, it will be talking over the network so the responsiveness will depend on your network.
+If you want to interact with a different LumiCube, create another cube object using the IP address of the other cube.
+You can then access all the fields and methods of the remote cube in the same way:
 
 cube2 = Cube("192.168.0.14")
 cube2.display.set_led(0, 0, red)
+
+Note: It will be communicating over a WiFi network, so the responsiveness will depend on your network speed and reliability.
