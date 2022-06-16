@@ -10,6 +10,11 @@ More detailed information can be found in our project booklet:
 The source code for the software running on the Raspberry Pi, including our web-based IDE, is available in a separate project:
 * https://github.com/abstractfoundry/lumicube-daemon
 
+## Simulator
+
+It is also possible to run _some_ of these examples projects using our online simulator:
+* https://abstractfoundry.com/lumicube/simulator
+
 ## Example projects
 
 The “examples” folder contains a number of example projects, some of which we used in our Kickstarter and Indiegogo video:
