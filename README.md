@@ -76,7 +76,8 @@ Blow at the back of the cube to make the windmill animation turn.
 See the LumiCube manual for a detailed explanation of the modules, methods and fields:
 * https://abstractfoundry.com/lumicube/manual.pdf
 
-A brief summary of the API is also given here: https://github.com/abstractfoundry/lumicube/blob/main/documentation/api.txt
+A brief summary of the API is also given here:
+* https://github.com/abstractfoundry/lumicube/blob/main/documentation/api.txt
 
 ### REST API
 
