@@ -96,7 +96,7 @@ All of the modules, methods, and fields in the Python API (see the product manua
 #### Getting or setting a field
 
 ```
-[GET/POST] http://<IP_ADDRESS>/api/v1/modules/<MODULE_NAME>/fields/<FIELD_NAME>  { "value": <VALUE> }
+[GET/POST] http://<IP_ADDRESS>/api/v1/modules/<MODULE_NAME>/fields/<FIELD_NAME> { "value": <VALUE> }
 ```
 
 For example, to set the brightness of the display to 50%:
@@ -117,6 +117,18 @@ For example, to set one LED at x=1, y=0 to colour=255 (blue, #0000ff in hex):
 curl -X POST -H "Content-Type: application/json" -d '{"arguments": [1, 0, 255]}' http://<IP_ADDRESS>/api/v1/modules/display/methods/set_led
 ```
 
+#### Executing a Python script
+
+```
+[POST] http://<IP_ADDRESS>/api/v1/scripts/main/methods/start { "body": "<YOUR_CODE>" }
+```
+
+For example, to set all the LEDs to red using a Python script:
+
+```
+curl -X POST -H "Content-Type: application/json" -d '{"body": "display.set_all(red)"}' http://<IP_ADDRESS>/api/v1/scripts/main/methods/start
+```
+
 #### Exceptional cases
 
 `set_leds(), set_3d()`
@@ -126,5 +138,5 @@ In Python these methods take a dictionary mapping coordinates to colours, where 
 For example, to set the LED at (0,0) to 0x000080 and the LED at (1,1) to 0x0000FF:
 
 ```
-curl -X POST -H "Content-Type: application/json" -d '{"arguments": [{"0,0": 128, "1,1":255}]}' http://<IP_ADDRESS>/api/v1/modules/display/methods/set_leds
+curl -X POST -H "Content-Type: application/json" -d '{"arguments": [{"0,0": 128, "1,1": 255}]}' http://<IP_ADDRESS>/api/v1/modules/display/methods/set_leds
 ```
