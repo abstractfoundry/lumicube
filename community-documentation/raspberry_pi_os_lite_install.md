@@ -36,7 +36,7 @@ This will open a menu. Go into System Options. Select Wireless LAN and follow th
 
 ### Do not forget
 
-Using the lumicube will be done via the http interface, however if yt a later point you want to ssh into your raspi to update or add something you will need to enable this (as it is disabled by default).
+Using the lumicube will be done via the http interface, however if at a later point you want to ssh into your raspi to update or add something you will need to enable this (as it is disabled by default).
 
 > sudo systemctl enable ssh && sudo systemctl start ssh
 
