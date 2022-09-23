@@ -6,7 +6,7 @@ If you would rather use the Raspberry Pi OS Lite image for your lumicube you nee
 
 Only use the official repo: https://www.raspberrypi.com/software/operating-systems/
 
-You want the 32-bit image called "Raspberry Pi OS Lite" as the java daemon is not built for x86_64.
+You want the 32-bit image called "Raspberry Pi OS Lite" as the java daemon is not built for arm64.
 
 Get this flashed onto your SD card using your favorite tool. If you would rather use the official Raspberry Pi Imager tool (https://www.raspberrypi.com/software/) do pay close attention when choosing the OS.
 
