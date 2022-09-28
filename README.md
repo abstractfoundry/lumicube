@@ -1,3 +1,12 @@
+<p align="left">
+    <a href="https://discord.gg/Vw4GP74jyR" alt="Join us on Discord">
+        <img src="https://img.shields.io/discord/1019982647608496129?label=Discord&logo=discord&style=social" />
+    </a>&nbsp;&nbsp;
+    <a href="https://www.youtube.com/channel/UCqcvg09IKlXt0q0qyGb5hGw/featured" alt="Our YouTube Channel">
+        <img src="https://img.shields.io/youtube/channel/views/UCqcvg09IKlXt0q0qyGb5hGw?label=YouTubeChannelViews&style=social" />
+    </a>
+</p>
+
 # LumiCube
 
 This repository contains some example code and documentation for the LumiCube:
@@ -10,9 +19,13 @@ More detailed information can be found in our project booklet:
 The source code for the software running on the Raspberry Pi, including our web-based IDE, is available in a separate project:
 * https://github.com/abstractfoundry/lumicube-daemon
 
-## Community Documentation
+## Community Contributions
 
-Contributions from the community can be found in the "community-documentation" folder. Your contributions are welcome.
+Documentation:
+* https://github.com/abstractfoundry/lumicube/tree/main/community-documentation
+
+Scripts:
+* https://github.com/abstractfoundry/lumicube/tree/main/community-scripts
 
 ## Simulator
 
