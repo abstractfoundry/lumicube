@@ -2,7 +2,7 @@
 
 # Predefined colors
 
-0 = black
+B = black
 G = grey
 w = white
 r = red
@@ -17,37 +17,37 @@ P = purple
 
 # Image definitions
 
-alex = [
-    [o,o,o,o,o,o,o,o],
-    [o,o,o,o,o,o,o,o],
-    [o,o,o,o,y,y,o,o],
-    [o,o,o,y,y,y,y,o],
-    [y,w,g,y,y,g,w,y],
-    [y,y,y,y,y,y,y,y],
-    [y,y,y,m,m,y,y,y],
-    [y,y,y,y,y,y,y,y],
+enderman = [
+    [B,B,B,B,B,B,B,B],
+    [B,B,B,B,B,B,B,B],
+    [B,B,B,B,B,B,B,B],
+    [B,B,B,B,B,B,B,B],
+    [m,P,m,B,B,m,P,m],
+    [B,B,B,B,B,B,B,B],
+    [B,B,B,B,B,B,B,B],
+    [B,B,B,B,B,B,B,B],
 ]
 
 creeper = [
     [g,g,g,g,g,g,g,g],
     [g,g,g,g,g,g,g,g],
-    [g,0,0,g,g,0,0,g],
-    [g,0,0,g,g,0,0,g],
-    [g,g,g,0,0,g,g,g],
-    [g,g,0,0,0,0,g,g],
-    [g,g,0,g,g,0,g,g],
-    [g,g,0,g,g,0,g,g],
+    [g,B,B,g,g,B,B,g],
+    [g,B,B,g,g,B,B,g],
+    [g,g,g,B,B,g,g,g],
+    [g,g,B,B,B,B,g,g],
+    [g,g,B,g,g,B,g,g],
+    [g,g,B,g,g,B,g,g],
 ]
 
 mushroomcow = [
     [r,r,r,w,w,w,G,r],
     [r,r,r,w,w,w,r,r],
-    [0,0,r,w,w,r,0,0],
-    [0,0,r,G,r,r,0,0],
+    [B,B,r,w,w,r,B,B],
+    [B,B,r,G,r,r,B,B],
     [r,r,r,r,r,r,r,r],
     [r,r,w,w,w,w,r,r],
-    [r,w,b,G,G,0,w,r],
-    [r,w,G,0,0,G,w,r],
+    [r,w,B,G,G,B,w,r],
+    [r,w,G,B,B,G,w,r],
 ]
 
 # Display images

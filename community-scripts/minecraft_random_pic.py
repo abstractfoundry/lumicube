@@ -4,7 +4,7 @@
 import time
 import random
 
-# Define some colors
+# Define some hex colors
 
 black   = 0x000000
 brown   = 0xA38000
@@ -44,57 +44,78 @@ s = skin
 
 # define the pixel/led images
 #
-#            left
-#   b
-#   o                    t
-#   t                    o
-#   t                    p
-#   o
-#   m
-#           right
+#            top
+#                        r
+#   l                    i
+#   e                    g
+#   f                    h
+#   t                    t
+#           bottom
 
 sheep = [
     [w,w,w,w,w,w,w,w],
-    [w,lG,lG,Br,B,Br,lG,w],
-    [w,Br,Br,Br,w,Br,lG,w],
-    [w,s,s,Br,Br,Br,mG,w],
-    [w,s,s,Br,Br,Br,mG,w],
-    [w,Br,Br,Br,w,Br,mG,w],
-    [w,lG,lG,Br,B,Br,mG,w],
+    [w,lG,lG,mG,mG,mG,mG,w],
+    [w,Br,Br,Br,Br,Br,Br,w],
+    [w,B,w,Br,Br,w,B,w],
+    [w,Br,Br,w,w,Br,Br,w],
+    [w,lG,Br,s,s,Br,lG,w],
+    [w,lG,Br,s,s,Br,lG,w],
     [w,w,w,w,w,w,w,w],
 ]
 
 enderman = [
-    [B,B,B,m,B,B,B,B],
-    [B,B,B,P,B,B,B,B],
-    [B,B,B,m,B,B,B,B],
     [B,B,B,B,B,B,B,B],
     [B,B,B,B,B,B,B,B],
-    [B,B,B,m,B,B,B,B],
-    [B,B,B,P,B,B,B,B],
-    [B,B,B,m,B,B,B,B],
+    [B,B,B,B,B,B,B,B],
+    [B,B,B,B,B,B,B,B],
+    [m,P,m,B,B,m,P,m],
+    [B,B,B,B,B,B,B,B],
+    [B,B,B,B,B,B,B,B],
+    [B,B,B,B,B,B,B,B],
 ]
 
 alex = [
-    [y,y,y,y,o,o,o,o],
-    [y,y,y,w,o,o,o,o],
-    [y,y,y,g,o,o,o,o],
-    [y,s,y,y,o,o,o,o],
-    [y,s,y,y,y,y,o,o],
-    [y,y,y,g,y,y,o,o],
-    [y,y,y,w,y,o,o,o],
-    [y,y,y,y,o,o,o,o],
+    [o,o,o,o,o,o,o,o],
+    [o,o,o,o,o,o,o,o],
+    [o,o,o,o,s,s,o,o],
+    [o,o,o,s,s,s,s,o],
+    [s,B,w,s,s,B,w,s],
+    [s,s,s,s,s,s,s,s],
+    [s,s,s,m,m,s,s,s],
+    [s,s,s,s,s,s,s,s],
 ]
 
 creeper = [
     [g,g,g,g,g,g,g,g],
-    [g,g,g,g,B,B,g,g],
-    [B,B,B,g,B,B,g,g],
-    [g,g,B,B,g,g,g,g],
-    [g,g,B,B,g,g,g,g],
-    [B,B,B,g,B,B,g,g],
-    [g,g,g,g,B,B,g,g],
     [g,g,g,g,g,g,g,g],
+    [g,B,B,g,g,B,B,g],
+    [g,B,B,g,g,B,B,g],
+    [g,g,g,B,B,g,g,g],
+    [g,g,B,B,B,B,g,g],
+    [g,g,B,g,g,B,g,g],
+    [g,g,B,g,g,B,g,g],
+]
+
+mushroomcow = [
+    [r,r,r,w,w,w,mG,r],
+    [r,r,r,w,w,lG,r,r],
+    [B,B,r,w,lG,r,B,B],
+    [B,B,r,mG,r,r,B,B],
+    [r,r,r,r,r,r,r,r],
+    [r,r,w,w,w,w,r,r],
+    [r,w,B,G,G,B,w,r],
+    [r,w,G,B,B,G,w,r],
+]
+
+cow = [
+    [Br,Br,Br,w,w,G,G,Br],
+    [Br,Br,Br,Br,Br,Br,Br,Br],
+    [lG,lG,Br,Br,Br,Br,Br,Br],
+    [B,w,Br,Br,Br,Br,w,B],
+    [Br,Br,Br,Br,Br,Br,Br,Br],
+    [Br,Br,Br,Br,Br,Br,Br,Br],
+    [Br,Br,Br,Br,Br,Br,Br,Br],
+    [Br,Br,Br,Br,Br,Br,Br,Br],
 ]
 
 cow = [
@@ -106,17 +127,6 @@ cow = [
     [lG,B,w,Br,Br,Br,lG,G],
     [w,w,Br,Br,w,lG,Br,G],
     [Br,Br,Br,Br,B,lG,Br,Br],
-]
-
-mushroomcow = [
-    [r,r,r,r,B,B,r,r],
-    [w,w,r,r,B,B,r,r],
-    [G,B,w,r,r,r,r,r],
-    [B,G,w,r,G,w,w,w],
-    [B,G,w,r,r,w,w,w],
-    [G,B,w,r,r,r,w,w],
-    [w,w,r,r,B,B,r,G],
-    [r,r,r,r,B,B,r,r],
 ]
 
 # Make a list named "items" of the images
