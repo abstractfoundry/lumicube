@@ -8,7 +8,8 @@ More detailed information can be found in our project booklet:
 * https://abstractfoundry.com/lumicube/manual.pdf
 
 For getting started head to our resources page:
-https://abstractfoundry.com/lumicube/resources/
+* https://abstractfoundry.com/lumicube/resources
+
 (Note: the only supported operating system at the moment is the full 32bit Raspberry Pi OS.)
 
 The source code for the software running on the Raspberry Pi, including our web-based IDE, is available in a separate project:
