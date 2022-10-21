@@ -1,7 +1,7 @@
 # Volcano simulation
-# Random lava flows, projectiles, rumbling...
+# Bubbling magma, random lava flows, random projectiles, earthquakes...
 # Author : Kevin Haney
-# Date : 10/20/2022
+# Date : 10/21/2022
 # v1.0
 
 import time
@@ -76,6 +76,34 @@ flows = [
     lava3,
     lava4
 ]
+
+fireball0 = [
+    (4,8,5), (4,8,5), (3,8,4), (2,8,3), (1,8,2), (1,8,2), (0,8,3), (1,8,4), (2,8,5), (3,8,6), (4,8,7), (5,7,8), (5,6,8), (5,5,8), 
+    (5,5,8), (4,6,8), (3,5,8), (3,4,8), (3,3,8), (3,2,8), (3,2,8), (2,3,8), (1,2,8), (1,1,8), (1,0,8)   
+]
+
+fireball1 = [
+    (4,8,5), (4,8,5), (3,8,4), (2,8,3), (1,8,2), (1,8,2), (0,8,3), (1,8,4), (2,8,5), (3,8,6), (4,8,7), (5,7,8), (5,6,8), (5,5,8), 
+    (5,5,8), (6,6,8), (7,5,8), (7,4,8), (7,3,8), (7,2,8), (7,2,8), (5,3,8), (4,2,8), (4,1,8), (4,0,8)   
+]
+
+fireball2 = [
+    (5,8,4), (5,8,4), (4,8,3), (3,8,2), (2,8,1), (2,8,1), (3,8,0), (4,8,1), (5,8,2), (6,8,3), (7,8,4), (8,7,5), (8,6,5), (8,5,5), 
+    (8,5,5), (8,6,4), (8,5,3), (8,4,3), (8,3,3), (8,2,3), (8,2,3), (8,3,2), (8,2,1), (8,1,1), (8,0,1)   
+]
+
+fireball3 = [
+    (5,8,4), (5,8,4), (4,8,3), (3,8,2), (2,8,1), (2,8,1), (3,8,0), (4,8,1), (5,8,2), (6,8,3), (7,8,4), (8,7,5), (8,6,5), (8,5,5), 
+    (8,5,5), (8,6,4), (8,5,3), (8,4,3), (8,3,3), (8,2,3), (8,2,3), (8,3,4), (8,2,5), (8,1,5), (8,0,5)   
+]
+
+fireballs = [
+    fireball0,
+    fireball1,
+    fireball2,
+    fireball3
+]
+
 
 def LedDictionary():
     leds = {}
@@ -152,7 +180,7 @@ def Bubble(count, leds, sleep):
                 leds[x,8,z] = RandomBubbleColor()
         display.set_3d(leds)
         if sleep:
-            time.sleep(random.randrange(3,7)/10)
+            time.sleep(random.randrange(5,7)/10)
         
 def Flow(leds, lava):
     copy = leds.copy()
@@ -181,7 +209,18 @@ def Flow(leds, lava):
         Bubble(1,copy,False)
         display.set_3d(copy)
         time.sleep(.9)
-
+        
+def Fireball(leds, fb):
+    count = len(fb)
+    for i in range(count):
+        copy = leds.copy()
+        Bubble(1,copy,False)
+        if i > 0:
+            copy[fb[i-1]] = hsv_colour(.05, .7, .7)
+        copy[fb[i]] = hsv_colour(.05, 1, 1)
+            
+        display.set_3d(copy);
+        time.sleep(.1)
 
 def main():
     leds = LedDictionary()
@@ -191,16 +230,24 @@ def main():
     
     display.set_3d(leds)
     
-    shakeEvery = 5
+    shakeEvery = 8
+    fireballEvery = 2
     shake = 0
+    fireball = 0
     
     while True:
+        fireball += 1
+        if fireball >= fireballEvery:
+            fireball = 0
+            fb = fireballs[random.randrange(0,len(fireballs))]
+            Fireball(leds,fb)
+    
         Bubble(random.randrange(5,8), leds, True)
         shake += 1
         if shake >= shakeEvery:
             shake = 0
             Shake(leds)
-            flow = 1#random.randrange(0,len(flows))
+            flow = random.randrange(0,len(flows))
             Flow(leds, flows[flow])
 
 if __name__ == "__main__":
