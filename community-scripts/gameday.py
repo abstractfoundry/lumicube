@@ -221,7 +221,7 @@ if __name__ == "__main__":
                     #print(liveData)
                     set_game_state(liveData, leds)
                     #try not to make this too low.  10 is reasonable.  abusing the API may get you blocked!
-                    time.sleep(5)
+                    time.sleep(15)
 
             if liveData.status == "Final":
                 set_game_state(liveData, leds)
