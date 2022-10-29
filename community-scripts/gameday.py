@@ -226,3 +226,4 @@ if __name__ == "__main__":
             if liveData.status == "Final":
                 set_game_state(liveData, leds)
                 print(done)
+            time.sleep(10)
