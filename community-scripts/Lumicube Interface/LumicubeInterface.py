@@ -250,7 +250,7 @@ class Display:
         ret = self.session.post(url=self.__fullUrl + '/methods/set_3d', json=args2)
         ret.raise_for_status()
 
-    def set_panel(self, panel: str, color_List: List[List[int]]):
+    def set_panel(self, panel: str, color_list: List[List[int]]):
         """
         Set all the LEDs on one panel.
         Takes 8 lists each containing 8 colours.
