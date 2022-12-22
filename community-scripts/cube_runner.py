@@ -7,22 +7,33 @@
 # Note that if you want to use any of the example scripts, you'll need to save them to a file (they're not on disk, but in the web code).
 # the sample script below us using two cubes - "cubes" array can have just one (or more) as necessary.   cube value should be the dns name
 # or ip address of the lumicube pi host.
+# in cubes, a cube can specify a filename, or random : True to pick from a list of random file.
 # delay is in seconds
 # to run, place the script on the pi and run it (e.g. python cube_runner.py).  
 # You may want to comment out the print statements, they are useful for debugging though.
 import requests
 import json
 import time
+import random
 
 config = {
+    'random' : [
+        'vesuvius.py',
+        'cylon.py',
+        'yagol.py',
+        'ripples.py',
+        'Lava lamp 2.py',
+        'digital-rain-v2.py',
+        'pong.py'
+    ],
     'groups' : [
             {
                 'name' : '1',
                 'delay' : 60,
                 'cubes' : 
                 [
-                    { 'cube' : 'lumipi.lan', 'filename' : 'vesuvius.py' },
-                    { 'cube' : 'lumipi2.lan', 'filename' : 'cylon.py' }
+                    { 'cube' : 'lumipi.lan', 'random' : True },
+                    { 'cube' : 'lumipi2.lan', 'random' : True }
                 ]
             },
             {
@@ -39,7 +50,7 @@ config = {
                 'delay' : 300,
                 'cubes' : 
                 [
-                    { 'cube' : 'lumipi2.lan', 'filename' : 'Lava lamp 2.py' }
+                    { 'cube' : 'lumipi2.lan', 'random' : True }
                 ]
             },
             {
@@ -47,8 +58,8 @@ config = {
                 'delay' : 300,
                 'cubes' : 
                 [
-                    { 'cube' : 'lumipi.lan', 'filename' : 'ripples.py' },
-                    { 'cube' : 'lumipi2.lan', 'filename' : 'Lava lamp 2.py' }
+                    { 'cube' : 'lumipi.lan', 'random' : True },
+                    { 'cube' : 'lumipi2.lan', 'random' : True }
                 ]
             },
             {
@@ -57,7 +68,7 @@ config = {
                 'cubes' : 
                 [
                     { 'cube' : 'lumipi.lan', 'filename' : 'nest_thermostat.py' },
-                    { 'cube' : 'lumipi2.lan', 'filename' : 'digital-rain-v2.py' }
+                    { 'cube' : 'lumipi2.lan', 'random' : True }
                 ]
             }
     ]
@@ -67,21 +78,22 @@ if __name__ == "__main__":
     workingDirectory = '/home/pi/AbstractFoundry/Daemon/Scripts/'
     print(workingDirectory)
 
-    cube = "lumipi.lan"
-    script = 'display.set_all(black)'
-
     # save config to file
     #with open(workingDirectory + 'config','w') as config_file:
     #    config_file.write(json.dumps(config, indent=4))
 
     while True:
+        random_files = config['random']
         for group in config['groups']:
             name = group['name']
             delay = group['delay']
             print(f'Group {name}, delay {delay}')
             for cube in group['cubes']:
                 cubename = cube['cube']
-                filename = cube['filename']
+                if 'random' in cube:
+                    filename = random_files[random.randrange(len(random_files))]
+                else:
+                    filename = cube['filename']
                 with open(workingDirectory + filename, 'r') as file:
                     script = file.read()
 
