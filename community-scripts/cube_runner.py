@@ -15,6 +15,7 @@ import requests
 import json
 import time
 import random
+import traceback
 
 config = {
     'random' : [
@@ -29,7 +30,7 @@ config = {
     'groups' : [
             {
                 'name' : '1',
-                'delay' : 60,
+                'delay' : 300,
                 'cubes' : 
                 [
                     { 'cube' : 'lumipi.lan', 'random' : True },
@@ -97,23 +98,30 @@ if __name__ == "__main__":
                 with open(workingDirectory + filename, 'r') as file:
                     script = file.read()
 
-                url = "http://" + cubename + "/api/v1/scripts/main/methods/stop"
-                response = requests.post(url)
-                print(f'sending stop to {cubename}')
-                if response.status_code != 200:
-                    print(f'Unexpected response {response.status_code}')
-                    print(response)
-                
-                headers = {
-                    'Content-Type': 'application/json'
-                }
-                data = {
-                    'body' : script 
-                }
-                print(f'sending start of script {filename} to {cubename}')
-                url = "http://" + cubename + "/api/v1/scripts/main/methods/start"
-                response = requests.post(url, headers=headers, data=json.dumps(data))
-                if response.status_code != 200:
-                    print(f'Unexpected response {response.status_code}')
-                    print(response)
+                try:
+                    url = "http://" + cubename + "/api/v1/scripts/main/methods/stop"
+                    response = requests.post(url, timeout=30)
+                    print(f'sending stop to {cubename}')
+                    if response.status_code != 200:
+                        print(f'Unexpected response {response.status_code}')
+                        print(response)
+                    
+                    headers = {
+                        'Content-Type': 'application/json'
+                    }
+                    data = {
+                        'body' : script 
+                    }
+                    print(f'sending start of script {filename} to {cubename}')
+                    url = "http://" + cubename + "/api/v1/scripts/main/methods/start"
+                    response = requests.post(url, headers=headers, data=json.dumps(data), timeout=30)
+                    if response.status_code != 200:
+                        print(f'Unexpected response {response.status_code}')
+                        print(response)
+                except OSError as ose:
+                    print(f'OSError exception talking to {cubename}')
+                    print(getattr(ose, 'message', str(ose)))
+                except Exception as e:
+                    print(f'Unexpected exception talking to {cubename}')
+                    print(traceback.format_exc())
             time.sleep(delay)
